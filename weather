@@ -1,0 +1,11 @@
+#!/bin/bash
+
+USER_AGENT="Opera/9.80 (X11; Linux $(uname -m); Ubuntu/14.10) Presto/2.12.388 Version/12.16"
+CITY=28722
+
+#if [[ ! $(which "xml" 2>/dev/null) ]]; then
+#    echo "You need xmlstarlet"
+#fi
+
+curl -s -A "${USER_AGENT}" "http://informer.gismeteo.ru/rss/${CITY}.xml" | \
+    xmlstarlet sel -t -m 'rss/channel/item' -v 'title' -n -v 'description' -n | awk 'NR==2'
